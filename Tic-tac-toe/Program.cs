@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Text;
 using System.Security.Cryptography;
+using System.IO;
 
 namespace Tic_tac_toe
 {
@@ -44,6 +45,10 @@ namespace Tic_tac_toe
 
         public void Start()
         {
+            // Prompt the players to log in
+            playerX = PromptForLogin(PLAYER_X);
+            playerO = PromptForLogin(PLAYER_O);
+
             // Initialize the board
             for (int i = 0; i < BOARD_SIZE; i++)
             {
@@ -56,6 +61,7 @@ namespace Tic_tac_toe
             // Main game loop
             while (true)
             {
+
                 // Print the board
                 PrintBoard();
 
@@ -92,9 +98,7 @@ namespace Tic_tac_toe
                 // Switch to the other player
                 SwitchPlayer();
             }
-            // Prompt the players to log in
-            playerX = PromptForLogin(PLAYER_X);
-            playerO = PromptForLogin(PLAYER_O);
+            
         }
 
         private Player PromptForLogin(char marker)
@@ -143,7 +147,7 @@ namespace Tic_tac_toe
                 Console.WriteLine();
                 if (i < 2)
                 {
-                    Console.WriteLine("-+-+-");
+                    Console.WriteLine("");
                 }
             }
         }
@@ -224,5 +228,57 @@ namespace Tic_tac_toe
                 currentPlayer = PLAYER_X;
             }
         }
+
+       /* private void SaveGame()
+        {
+            using (StreamWriter writer = new StreamWriter("savedgame.txt"))
+            {
+                // Write game state to the file
+                writer.WriteLine(playerX.Username);
+                writer.WriteLine(playerO.Username);
+                writer.WriteLine(currentPlayer.Username);
+                for (int i = 0; i < 3; i++)
+                {
+                    for (int j = 0; j < 3; j++)
+                    {
+                        writer.Write(board[i, j]);
+                    }
+                }
+            }
+        }*/
+
+
+       /* private void LoadGame()
+        {
+            if (File.Exists("savedgame.txt"))
+            {
+                using (StreamReader reader = new StreamReader("savedgame.txt"))
+                {
+                    // Read game state from the file
+                    string playerXUsername = reader.ReadLine();
+                    string playerOUsername = reader.ReadLine();
+                    string currentPlayerUsername = reader.ReadLine();
+                    char[] boardState = reader.ReadToEnd().ToCharArray();
+
+                    // Create the Player objects for the game
+                    playerX = new Player("", playerXUsername, "", 'X');
+                    playerO = new Player("", playerOUsername, "", 'O');
+                    currentPlayer = playerXUsername == currentPlayerUsername ? playerX : playerO;
+
+                    // Initialize the board
+                    for (int i = 0; i < 3; i++)
+                    {
+                        for (int j = 0; j < 3; j++)
+                        {
+                            board[i, j] = boardState[i * 3 + j];
+                        }
+                    }
+                }
+
+                // Print the board
+                PrintBoard();
+            }
+        }*/
+
     }
 }

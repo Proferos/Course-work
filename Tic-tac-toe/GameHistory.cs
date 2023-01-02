@@ -8,6 +8,7 @@ namespace Tic_tac_toe
 {
     class GameHistory
     {
+        public Guid Id { get; set; }
         public Player PlayerX { get; set; }
         public Player PlayerO { get; set; }
         public Player Winner { get; set; }
@@ -15,6 +16,7 @@ namespace Tic_tac_toe
 
         public GameHistory(Player playerX, Player playerO, Player winner)
         {
+            Id = Guid.NewGuid();
             PlayerX = playerX;
             PlayerO = playerO;
             Winner = winner;

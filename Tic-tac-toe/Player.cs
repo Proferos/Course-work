@@ -36,16 +36,17 @@ namespace Tic_tac_toe
             }
         }
 
+
         public void PrintGameHistory()
         {
             Console.WriteLine($"Game history for {Name}:");
-            Console.WriteLine("Date            Opponent         Result");
-            Console.WriteLine("==============================================");
+            Console.WriteLine("ID                 Date            Opponent         Result");
+            Console.WriteLine("==============================================================");
             foreach (GameHistory history in GameHistories)
             {
                 string opponentName = history.PlayerO == this ? history.PlayerX.Name : history.PlayerO.Name;
                 string result = history.Winner == null ? "Draw" : (history.Winner == this ? "Win" : "Loss");
-                Console.WriteLine($"{history.Date:yyyy-MM-dd}  {opponentName,-15}  {result}");
+                Console.WriteLine($"{history.Id,-24}  {history.Date:dd-MM-yyyy}  {opponentName,-15}  {result}");
             }
         }
 
