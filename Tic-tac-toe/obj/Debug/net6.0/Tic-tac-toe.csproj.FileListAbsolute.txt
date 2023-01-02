@@ -1,0 +1,15 @@
+D:\repos\kpi_repos\OOP\Course-work\Course-work\Tic-tac-toe\bin\Debug\net6.0\Tic-tac-toe.exe
+D:\repos\kpi_repos\OOP\Course-work\Course-work\Tic-tac-toe\bin\Debug\net6.0\Tic-tac-toe.deps.json
+D:\repos\kpi_repos\OOP\Course-work\Course-work\Tic-tac-toe\bin\Debug\net6.0\Tic-tac-toe.runtimeconfig.json
+D:\repos\kpi_repos\OOP\Course-work\Course-work\Tic-tac-toe\bin\Debug\net6.0\Tic-tac-toe.dll
+D:\repos\kpi_repos\OOP\Course-work\Course-work\Tic-tac-toe\bin\Debug\net6.0\Tic-tac-toe.pdb
+D:\repos\kpi_repos\OOP\Course-work\Course-work\Tic-tac-toe\obj\Debug\net6.0\Tic-tac-toe.csproj.AssemblyReference.cache
+D:\repos\kpi_repos\OOP\Course-work\Course-work\Tic-tac-toe\obj\Debug\net6.0\Tic-tac-toe.GeneratedMSBuildEditorConfig.editorconfig
+D:\repos\kpi_repos\OOP\Course-work\Course-work\Tic-tac-toe\obj\Debug\net6.0\Tic-tac-toe.AssemblyInfoInputs.cache
+D:\repos\kpi_repos\OOP\Course-work\Course-work\Tic-tac-toe\obj\Debug\net6.0\Tic-tac-toe.AssemblyInfo.cs
+D:\repos\kpi_repos\OOP\Course-work\Course-work\Tic-tac-toe\obj\Debug\net6.0\Tic-tac-toe.csproj.CoreCompileInputs.cache
+D:\repos\kpi_repos\OOP\Course-work\Course-work\Tic-tac-toe\obj\Debug\net6.0\Tic-tac-toe.dll
+D:\repos\kpi_repos\OOP\Course-work\Course-work\Tic-tac-toe\obj\Debug\net6.0\refint\Tic-tac-toe.dll
+D:\repos\kpi_repos\OOP\Course-work\Course-work\Tic-tac-toe\obj\Debug\net6.0\Tic-tac-toe.pdb
+D:\repos\kpi_repos\OOP\Course-work\Course-work\Tic-tac-toe\obj\Debug\net6.0\Tic-tac-toe.genruntimeconfig.cache
+D:\repos\kpi_repos\OOP\Course-work\Course-work\Tic-tac-toe\obj\Debug\net6.0\ref\Tic-tac-toe.dll
