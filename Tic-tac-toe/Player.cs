@@ -5,6 +5,7 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Xml.Linq;
 using System.Security.Cryptography;
+using System.IO;
 
 namespace Tic_tac_toe
 {
@@ -47,6 +48,67 @@ namespace Tic_tac_toe
                 Console.WriteLine($"{history.Date:yyyy-MM-dd}  {opponentName,-15}  {result}");
             }
         }
+
+        public void SaveToFile(string filePath)
+        {
+            using (StreamWriter writer = new StreamWriter(filePath))
+            {
+                // Write player data to the file
+                writer.WriteLine(Name);
+                writer.WriteLine(Username);
+                writer.WriteLine(PasswordHash);
+                writer.WriteLine(Marker);
+                writer.WriteLine(Wins);
+                writer.WriteLine(Losses);
+
+                // Write game history to the file
+                foreach (GameHistory history in GameHistories)
+                {
+                    writer.WriteLine(history.Date.ToString("yyyy-MM-dd HH:mm:ss"));
+                    writer.WriteLine(history.PlayerX.Username);
+                    writer.WriteLine(history.PlayerO.Username);
+                    writer.WriteLine(history.Winner?.Username ?? "");
+                }
+            }
+        }
+
+        public static Player LoadFromFile(string filePath)
+        {
+            using (StreamReader reader = new StreamReader(filePath))
+            {
+                // Read player data from the file
+                string name = reader.ReadLine();
+                string username = reader.ReadLine();
+                string passwordHash = reader.ReadLine();
+                char marker = reader.ReadLine()[0];
+                int wins = int.Parse(reader.ReadLine());
+                int losses = int.Parse(reader.ReadLine());
+
+                Player player = new Player(name, username, passwordHash, marker);
+                player.Wins = wins;
+                player.Losses = losses;
+
+                // Read game history from the file
+                while (!reader.EndOfStream)
+                {
+                    DateTime date = DateTime.Parse(reader.ReadLine());
+                    string playerXUsername = reader.ReadLine();
+                    string playerOUsername = reader.ReadLine();
+                    string winnerUsername = reader.ReadLine();
+
+                    // Create the Player objects for the game history entry
+                    Player playerX = new Player("", playerXUsername, "", 'X');
+                    Player playerO = new Player("", playerOUsername, "", 'O');
+                    Player winner = string.IsNullOrEmpty(winnerUsername) ? null : new Player("", winnerUsername, "", 'X');
+
+                    player.GameHistories.Add(new GameHistory(playerX, playerO, winner));
+                }
+
+                return player;
+            }
+        }
+
     }
 
 }
+

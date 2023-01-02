@@ -126,22 +126,28 @@ namespace Tic_tac_toe
 
         private void PrintBoard()
         {
-            // Print the top row of column numbers
-            Console.WriteLine("  0 1 2");
+            // Clear the console
+            Console.Clear();
 
-            // Print each row of the board
-            for (int i = 0; i < BOARD_SIZE; i++)
+            // Print the board
+            for (int i = 0; i < 3; i++)
             {
-                // Print the row number
-                Console.Write(i + " ");
-
-                // Print each cell in the row
-                for (int j = 0; j < BOARD_SIZE; j++)
+                for (int j = 0; j < 3; j++)
                 {
-                    Console.Write(board[i, j]);
+                    Console.Write(board[i, j] == ' ' ? '-' : board[i, j]);
+                    if (j < 2)
+                    {
+                        Console.Write("|");
+                    }
+                }
+                Console.WriteLine();
+                if (i < 2)
+                {
+                    Console.WriteLine("-+-+-");
                 }
             }
         }
+
         private int GetPlayerMove()
         {
             while (true)
