@@ -20,11 +20,11 @@ namespace Tic_tac_toe
         public char Marker { get; set; }
         public int Wins { get; set; }
         public int Losses { get; set; }
-        public List<GameHistory> GameHistories { get; set; }
         public string PasswordHash { get; set; }
-        public static List<Player> PlayersBase = new List<Player>();
         public int number { get; set; }
         protected static int PlayerNumber = 0;
+        public List<GameHistory> GameHistories { get; set; }
+        public static List<Player> PlayersBase = new List<Player>();
 
 
         public Player(string name, string username, string password, char marker)

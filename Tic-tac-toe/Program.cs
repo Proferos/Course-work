@@ -12,6 +12,11 @@ namespace Tic_tac_toe
 
         static void Main(string[] args)
         {
+
+            /*Player player = new Player("user", "user", "user", 'X');
+            GameHistory history = new GameHistory(player, player, player);
+            player.GameHistories.Add(history);
+            Console.WriteLine(player.GameHistories[0].PlayerX.Username);*/
             while (true)
             {
                 Console.Clear();
@@ -40,8 +45,8 @@ namespace Tic_tac_toe
                     Console.Clear();
                     Console.Write("Print username of player: ");
                     string username = Console.ReadLine();
-                    if (Player.exists(username)) 
-                    { 
+                    if (Player.exists(username))
+                    {
                         Player.find(username).PrintGameHistory();
                         var a = Console.ReadLine();
                     }
@@ -51,8 +56,8 @@ namespace Tic_tac_toe
                     break;
                 }
 
-
             }
+
 
         }
     }
@@ -165,11 +170,9 @@ namespace Tic_tac_toe
 
                 
                 // add check for unique username
-                if (password == password2) 
+                if (password == password2 && !Player.exists(username)) 
                 {
                     Player player = new Player(name, username, password, mark);
-
-                    /*player.SaveToFile();*/
                     Player.PlayersBase.Add(player);
                     return player;
 
@@ -195,15 +198,12 @@ namespace Tic_tac_toe
                 {
                     string hashedPassword = Encoding.UTF8.GetString(sha256.ComputeHash(Encoding.UTF8.GetBytes(password)));
 
-                    /* // Check if the username and password are valid (in this example, we just check if the username is "playerX" or "playerO")
-                     if (username == $"player{marker}" && hashedPassword == $"{marker}password")
-                     {*/
                     if (Player.exists(username))
                     {
                         if (Player.find(username).Password == hashedPassword)
                         {
                             // Return the player object
-                            return new Player($"Player {marker}", username, hashedPassword, marker);
+                            return Player.find(username);
                         }
 
                     }
