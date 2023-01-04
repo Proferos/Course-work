@@ -6,9 +6,12 @@ using System.Threading.Tasks;
 using System.Xml.Linq;
 using System.Security.Cryptography;
 using System.IO;
+using System.Runtime.Serialization.Formatters.Binary;
+using System.Runtime.Serialization.Json;
 
 namespace Tic_tac_toe
 {
+    
     class Player
     {
         public string Name { get; set; }
@@ -19,13 +22,15 @@ namespace Tic_tac_toe
         public int Losses { get; set; }
         public List<GameHistory> GameHistories { get; set; }
         public string PasswordHash { get; set; }
+        public static List<Player> PlayersBase = new List<Player>();
+        public int number { get; set; }
+        protected static int PlayerNumber = 0;
 
 
         public Player(string name, string username, string password, char marker)
         {
             Name = name;
             Username = username;
-            Password = password;
             Marker = marker;
             Wins = 0;
             Losses = 0;
@@ -34,6 +39,8 @@ namespace Tic_tac_toe
             {
                 PasswordHash = Encoding.UTF8.GetString(sha256.ComputeHash(Encoding.UTF8.GetBytes(password)));
             }
+            Password = PasswordHash;
+            number = PlayerNumber++;
         }
 
 
@@ -50,64 +57,107 @@ namespace Tic_tac_toe
             }
         }
 
-        public void SaveToFile(string filePath)
+        public static Player find(string username) 
         {
-            using (StreamWriter writer = new StreamWriter(filePath))
-            {
-                // Write player data to the file
-                writer.WriteLine(Name);
-                writer.WriteLine(Username);
-                writer.WriteLine(PasswordHash);
-                writer.WriteLine(Marker);
-                writer.WriteLine(Wins);
-                writer.WriteLine(Losses);
+            // finds an element in list PlyerBase by property Username
+            return PlayersBase.Find(x => x.Username == username); 
+        }
 
-                // Write game history to the file
-                foreach (GameHistory history in GameHistories)
-                {
-                    writer.WriteLine(history.Date.ToString("yyyy-MM-dd HH:mm:ss"));
-                    writer.WriteLine(history.PlayerX.Username);
-                    writer.WriteLine(history.PlayerO.Username);
-                    writer.WriteLine(history.Winner?.Username ?? "");
-                }
+        /*public static void Save(string fileName)
+        {
+            DataContractJsonSerializer serializer = new DataContractJsonSerializer(typeof(List<Player>));
+            using (MemoryStream stream = new MemoryStream())
+            {
+                serializer.WriteObject(stream, PlayersBase);
+                string json = Encoding.UTF8.GetString(stream.ToArray());
+                File.WriteAllText(fileName, json);
             }
         }
 
-        public static Player LoadFromFile(string filePath)
+        public static List<Player> Load(string fileName)
         {
-            using (StreamReader reader = new StreamReader(filePath))
+            string json = File.ReadAllText("D:\\repos\\kpi_repos\\OOP\\Course-work\\Course-work\\Tic-tac-toe\\players\\players.json");
+            using (MemoryStream stream = new MemoryStream(Encoding.UTF8.GetBytes(json)))
             {
-                // Read player data from the file
-                string name = reader.ReadLine();
-                string username = reader.ReadLine();
-                string passwordHash = reader.ReadLine();
-                char marker = reader.ReadLine()[0];
-                int wins = int.Parse(reader.ReadLine());
-                int losses = int.Parse(reader.ReadLine());
-
-                Player player = new Player(name, username, passwordHash, marker);
-                player.Wins = wins;
-                player.Losses = losses;
-
-                // Read game history from the file
-                while (!reader.EndOfStream)
-                {
-                    DateTime date = DateTime.Parse(reader.ReadLine());
-                    string playerXUsername = reader.ReadLine();
-                    string playerOUsername = reader.ReadLine();
-                    string winnerUsername = reader.ReadLine();
-
-                    // Create the Player objects for the game history entry
-                    Player playerX = new Player("", playerXUsername, "", 'X');
-                    Player playerO = new Player("", playerOUsername, "", 'O');
-                    Player winner = string.IsNullOrEmpty(winnerUsername) ? null : new Player("", winnerUsername, "", 'X');
-
-                    player.GameHistories.Add(new GameHistory(playerX, playerO, winner));
-                }
-
-                return player;
+                DataContractJsonSerializer serializer = new DataContractJsonSerializer(typeof(List<Player>));
+                List<Player> players = (List<Player>)serializer.ReadObject(stream);
+                return players;
             }
-        }
+        }*/
+
+        /* public void SaveToFile()
+         {
+             if (!File.Exists("D:\\repos\\kpi_repos\\OOP\\Course-work\\Course-work\\Tic-tac-toe\\players\\player" + number + ".txt")) {
+                 File.Create("D:\\repos\\kpi_repos\\OOP\\Course-work\\Course-work\\Tic-tac-toe\\players\\player" + number + ".txt");
+             }
+             string filePath = "D:\\repos\\kpi_repos\\OOP\\Course-work\\Course-work\\Tic-tac-toe\\players\\player" + number + ".txt";
+             *//*FileStream file = new FileStream(filePath, FileMode.Append);
+             StreamWriter writer = new StreamWriter(file);
+             writer.WriteLine(Name);
+             writer.WriteLine(Username);
+             writer.WriteLine(Password);
+             writer.WriteLine(Marker);
+             writer.Close();
+             file.Close();*//*
+             using (StreamWriter writer = new StreamWriter(filePath))
+             {
+                 // Write player data to the file
+                 writer.WriteLine(Name);
+                 writer.WriteLine(Username);
+                 writer.WriteLine(PasswordHash);
+                 writer.WriteLine(Marker);
+                 writer.WriteLine(Wins);
+                 writer.WriteLine(Losses);
+
+                 // Write game history to the file
+                 foreach (GameHistory history in GameHistories)
+                 {
+                     writer.WriteLine(history.Date.ToString("yyyy-MM-dd HH:mm:ss"));
+                     writer.WriteLine(history.PlayerX.Username);
+                     writer.WriteLine(history.PlayerO.Username);
+                     writer.WriteLine(history.Winner?.Username ?? "");
+                 }
+                 writer.Close();
+             }
+         }
+
+         public static Player LoadFromFile()
+         {
+             string filePath = "D:\\repos\\kpi_repos\\OOP\\Course-work\\Course-work\\Tic-tac-toe\\players.txt";
+
+             using (StreamReader reader = new StreamReader(filePath))
+             {
+                 // Read player data from the file
+                 string name = reader.ReadLine();
+                 string username = reader.ReadLine();
+                 string passwordHash = reader.ReadLine();
+                 char marker = reader.ReadLine()[0];
+                 int wins = int.Parse(reader.ReadLine());
+                 int losses = int.Parse(reader.ReadLine());
+
+                 Player player = new Player(name, username, passwordHash, marker);
+                 player.Wins = wins;
+                 player.Losses = losses;
+
+                 // Read game history from the file
+                 while (!reader.EndOfStream)
+                 {
+                     DateTime date = DateTime.Parse(reader.ReadLine());
+                     string playerXUsername = reader.ReadLine();
+                     string playerOUsername = reader.ReadLine();
+                     string winnerUsername = reader.ReadLine();
+
+                     // Create the Player objects for the game history entry
+                     Player playerX = new Player("", playerXUsername, "", 'X');
+                     Player playerO = new Player("", playerOUsername, "", 'O');
+                     Player winner = string.IsNullOrEmpty(winnerUsername) ? null : new Player("", winnerUsername, "", 'X');
+
+                     player.GameHistories.Add(new GameHistory(playerX, playerO, winner));
+                 }
+
+                 return player;
+             }
+         }*/
 
     }
 

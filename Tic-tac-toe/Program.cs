@@ -8,18 +8,55 @@ namespace Tic_tac_toe
 {
     class Program
     {
+
         static void Main(string[] args)
         {
-            // Create a new game and start it
-            TicTacToeGame game = new TicTacToeGame();
-            game.Start();
+            while (true)
+            {
+                Console.Clear();
+                Console.WriteLine("Welcome To The Main Menu Of The Greate Ti-Tac-Toe Game");
+                Console.WriteLine("Please select one of the following options:");
+                Console.WriteLine("[s] - to start a new game");
+                Console.WriteLine("[r] - to call a registration form");
+                Console.WriteLine("[h] - to call a game history of a certain player");
+                Console.WriteLine("[x] - to close the game");
+
+                char key = Console.ReadLine()[0];
+                if (key == 's')
+                {
+                    // Create a new game and start it
+                    Console.Clear();
+                    TicTacToeGame game = new TicTacToeGame();
+                    game.Start();
+                }
+                else if (key == 'r')
+                {
+                    Console.Clear();
+                    TicTacToeGame.Registration();
+                }
+                else if (key == 'h')
+                {
+                    Console.Clear();
+                    Console.Write("Print username of player: ");
+                    string username = Console.ReadLine();
+                    Player.find(username).PrintGameHistory();
+                    var a = Console.ReadLine();
+                }
+                else if (key == 'x')
+                {
+                    break;
+                }
+
+
+            }
+
         }
     }
 
+
+
     class TicTacToeGame
     {
-        private Player playerX = new Player("leha", "nagibator", "pass1", 'X');
-        private Player playerO = new Player("bodya", "zxc", "pass2", 'O');
 
         // Constants for the size of the board and the characters used to represent each player
         private const int BOARD_SIZE = 3;
@@ -46,8 +83,8 @@ namespace Tic_tac_toe
         public void Start()
         {
             // Prompt the players to log in
-            playerX = PromptForLogin(PLAYER_X);
-            playerO = PromptForLogin(PLAYER_O);
+            Player playerX = PromptForLogin(PLAYER_X);
+            Player playerO = PromptForLogin(PLAYER_O);
 
             // Initialize the board
             for (int i = 0; i < BOARD_SIZE; i++)
@@ -101,7 +138,45 @@ namespace Tic_tac_toe
             
         }
 
-        private Player PromptForLogin(char marker)
+        public static Player Registration()
+        {
+            while (true)
+            {
+                Console.WriteLine("Registration form");
+
+                Console.Write($"Please, enter your name: ");
+                string name = Console.ReadLine();
+
+                Console.Write($"Please, enter your username: ");
+                string username = Console.ReadLine();
+
+                Console.Write("Enter your mark (X or O): ");
+                char mark = Console.ReadLine()[0];
+
+                Console.Write("Enter your password: ");
+                string password = Console.ReadLine();
+
+                Console.Write("Confirm your password: ");
+                string password2 = Console.ReadLine();
+
+                
+                // add check for unique username
+                if (password == password2) 
+                {
+                    Player player = new Player(name, username, password, mark);
+
+                    /*player.SaveToFile();*/
+                    Player.PlayersBase.Add(player);
+                    return player;
+
+                    break;
+                }
+
+                Console.WriteLine("Invalid username or password. Try again.");
+            }
+        }
+
+            private static Player PromptForLogin(char marker)
         {
             while (true)
             {
@@ -116,12 +191,12 @@ namespace Tic_tac_toe
                 {
                     string hashedPassword = Encoding.UTF8.GetString(sha256.ComputeHash(Encoding.UTF8.GetBytes(password)));
 
-                    // Check if the username and password are valid (in this example, we just check if the username is "playerX" or "playerO")
+                   /* // Check if the username and password are valid (in this example, we just check if the username is "playerX" or "playerO")
                     if (username == $"player{marker}" && hashedPassword == $"{marker}password")
-                    {
+                    {*/
                         // Return the player object
                         return new Player($"Player {marker}", username, hashedPassword, marker);
-                    }
+                    /*}*/
                 }
 
                 Console.WriteLine("Invalid username or password. Try again.");
