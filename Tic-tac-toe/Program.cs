@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Text;
 using System.Security.Cryptography;
 using System.IO;
+using System.Runtime.ExceptionServices;
 
 namespace Tic_tac_toe
 {
@@ -39,8 +40,11 @@ namespace Tic_tac_toe
                     Console.Clear();
                     Console.Write("Print username of player: ");
                     string username = Console.ReadLine();
-                    Player.find(username).PrintGameHistory();
-                    var a = Console.ReadLine();
+                    if (Player.exists(username)) 
+                    { 
+                        Player.find(username).PrintGameHistory();
+                        var a = Console.ReadLine();
+                    }
                 }
                 else if (key == 'x')
                 {
@@ -176,7 +180,7 @@ namespace Tic_tac_toe
             }
         }
 
-            private static Player PromptForLogin(char marker)
+        private static Player PromptForLogin(char marker)
         {
             while (true)
             {
@@ -191,12 +195,18 @@ namespace Tic_tac_toe
                 {
                     string hashedPassword = Encoding.UTF8.GetString(sha256.ComputeHash(Encoding.UTF8.GetBytes(password)));
 
-                   /* // Check if the username and password are valid (in this example, we just check if the username is "playerX" or "playerO")
-                    if (username == $"player{marker}" && hashedPassword == $"{marker}password")
-                    {*/
-                        // Return the player object
-                        return new Player($"Player {marker}", username, hashedPassword, marker);
-                    /*}*/
+                    /* // Check if the username and password are valid (in this example, we just check if the username is "playerX" or "playerO")
+                     if (username == $"player{marker}" && hashedPassword == $"{marker}password")
+                     {*/
+                    if (Player.exists(username))
+                    {
+                        if (Player.find(username).Password == hashedPassword)
+                        {
+                            // Return the player object
+                            return new Player($"Player {marker}", username, hashedPassword, marker);
+                        }
+
+                    }
                 }
 
                 Console.WriteLine("Invalid username or password. Try again.");

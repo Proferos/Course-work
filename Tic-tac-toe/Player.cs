@@ -63,6 +63,11 @@ namespace Tic_tac_toe
             return PlayersBase.Find(x => x.Username == username); 
         }
 
+        public static bool exists(string username) 
+        {
+            return Player.PlayersBase.Exists(x => x.Username == username);
+        }
+
         /*public static void Save(string fileName)
         {
             DataContractJsonSerializer serializer = new DataContractJsonSerializer(typeof(List<Player>));
