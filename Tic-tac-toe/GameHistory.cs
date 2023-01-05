@@ -6,6 +6,7 @@ using System.Threading.Tasks;
 
 namespace Tic_tac_toe
 {
+    [Serializable]
     class GameHistory
     {
         public Guid Id { get; set; }

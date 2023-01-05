@@ -11,6 +11,7 @@ using System.Runtime.Serialization.Json;
 
 namespace Tic_tac_toe
 {
+    [Serializable]
     class BasePlayer
     {
         public string Name { get; set; }
@@ -19,8 +20,7 @@ namespace Tic_tac_toe
         public int Wins { get; set; }
         public int Losses { get; set; }
         public string PasswordHash { get; set; }
-        public int number { get; set; }
-        public int rating { get; set; }
+        protected int rating { get; set; }
         public List<GameHistory> GameHistories { get; set; }
         public static List<BasePlayer> PlayersBase = new List<BasePlayer>();
 
@@ -56,6 +56,7 @@ namespace Tic_tac_toe
         public void PrintGameHistory()
         {
             Console.WriteLine($"Game history for {Name}:");
+            Console.WriteLine($"Current Rating: {rating}");
             Console.WriteLine("ID                                 Date            Opponent         Result");
             Console.WriteLine("==========================================================================");
             foreach (GameHistory history in GameHistories)
@@ -77,8 +78,37 @@ namespace Tic_tac_toe
             return BasePlayer.PlayersBase.Exists(x => x.Username == username);
         }
 
+        public static void save()
+        {
+            var binFormatter = new BinaryFormatter();
+
+            using (var file = new FileStream("PlayerBase.bin", FileMode.OpenOrCreate))
+            {
+                binFormatter.Serialize(file, PlayersBase);
+            }
+        }
+
+        public static void load() 
+        {
+            var binFormatter = new BinaryFormatter();
+
+            using (var file = new FileStream("PlayerBase.bin", FileMode.OpenOrCreate))
+            {
+                var newPlayerBase = binFormatter.Deserialize(file) as List<BasePlayer>;
+
+                if (newPlayerBase != null)
+                {
+                    PlayersBase = newPlayerBase;
+                }
+            }
+        }
+
+
+        
+
     }
 
+    [Serializable]
     class PremiumPlayer : BasePlayer
     {
         public PremiumPlayer(string name, string username, string password)
@@ -106,6 +136,9 @@ namespace Tic_tac_toe
         }
     }
 
+
+
+    [Serializable]
     class VIPPlayer : BasePlayer
     {
         public VIPPlayer(string name, string username, string password)
@@ -132,6 +165,5 @@ namespace Tic_tac_toe
             if (rating < 0) rating = 0;
         }
     }
-
 }
 

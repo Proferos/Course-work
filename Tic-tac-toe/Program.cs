@@ -14,6 +14,7 @@ namespace Tic_tac_toe
 
         static void Main(string[] args)
         {
+            BasePlayer.load();
             while (true)
             {
                 Console.Clear();
@@ -48,11 +49,11 @@ namespace Tic_tac_toe
                         var a = Console.ReadLine();
                     }
                 }
-                else if (key == 'd') 
+                else if (key == 'd')
                 {
                     Console.WriteLine("!!!You are trying to delete all accounts!!! \nConfirm delition by entering secret key:");
-                    if (Console.ReadLine() == superSecretKey) 
-                    { 
+                    if (Console.ReadLine() == superSecretKey)
+                    {
                         BasePlayer.PlayersBase.Clear();
                     }
                 }
@@ -62,6 +63,8 @@ namespace Tic_tac_toe
                 }
 
             }
+
+            BasePlayer.save();
 
 
         }
@@ -167,14 +170,16 @@ namespace Tic_tac_toe
             {
                 Console.WriteLine("Registration form");
 
-                Console.Write($"Please, enter your name: ");
+                
+                Console.Write("Please, enter your name: ");
                 string name = Console.ReadLine();
 
-                Console.Write($"Please, enter your username: ");
+                Console.Write("Please, enter your username: ");
                 string username = Console.ReadLine();
 
-                Console.Write("Enter your mark (X or O): ");
-                char mark = Console.ReadLine()[0];
+                Console.Write("What type of account do you want (Base, Premium, VIP): ");
+                string acc = Console.ReadLine();
+
 
                 Console.Write("Enter your password: ");
                 string password = Console.ReadLine();
@@ -186,11 +191,30 @@ namespace Tic_tac_toe
                 // add check for unique username
                 if (password == password2 && !BasePlayer.exists(username)) 
                 {
-                    BasePlayer player = new BasePlayer(name, username, password);
-                    BasePlayer.PlayersBase.Add(player);
-                    return player;
+                    if(acc == "Base")
+                    {
+                        BasePlayer player = new BasePlayer(name, username, password);
+                        BasePlayer.PlayersBase.Add(player);
+                        return player;
 
-                    break;
+                        break;
+                    }
+                    else if (acc == "Premium")
+                    {
+                        PremiumPlayer player = new PremiumPlayer(name, username, password);
+                        BasePlayer.PlayersBase.Add(player);
+                        return player;
+
+                        break;
+                    }
+                    else if (acc == "VIP")
+                    {
+                        VIPPlayer player = new VIPPlayer(name, username, password);
+                        BasePlayer.PlayersBase.Add(player);
+                        return player;
+
+                        break;
+                    }
                 }
 
                 Console.WriteLine("Invalid username or password. Try again.");
