@@ -4,21 +4,17 @@ using System.Text;
 using System.Security.Cryptography;
 using System.IO;
 using System.Runtime.ExceptionServices;
+using System.Runtime.CompilerServices;
 
 namespace Tic_tac_toe
 {
     class Program
     {
+        private static string superSecretKey = "123456qwerty";
 
         static void Main(string[] args)
         {
-            PremiumPlayer player = new PremiumPlayer("123","123","123");
-            Console.WriteLine(player.Name);
-            Console.WriteLine(player.Username);
-            Console.WriteLine(player.Wins);
-            Console.WriteLine(player.rating);
-
-            /*while (true)
+            while (true)
             {
                 Console.Clear();
                 Console.WriteLine("Welcome To The Main Menu Of The Greate Ti-Tac-Toe Game");
@@ -52,12 +48,20 @@ namespace Tic_tac_toe
                         var a = Console.ReadLine();
                     }
                 }
+                else if (key == 'd') 
+                {
+                    Console.WriteLine("!!!You are trying to delete all accounts!!! \nConfirm delition by entering secret key:");
+                    if (Console.ReadLine() == superSecretKey) 
+                    { 
+                        BasePlayer.PlayersBase.Clear();
+                    }
+                }
                 else if (key == 'x')
                 {
                     break;
                 }
 
-            }*/
+            }
 
 
         }
