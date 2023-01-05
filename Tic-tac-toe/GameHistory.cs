@@ -9,12 +9,12 @@ namespace Tic_tac_toe
     class GameHistory
     {
         public Guid Id { get; set; }
-        public Player PlayerX { get; set; }
-        public Player PlayerO { get; set; }
-        public Player Winner { get; set; }
+        public BasePlayer PlayerX { get; set; }
+        public BasePlayer PlayerO { get; set; }
+        public BasePlayer Winner { get; set; }
         public DateTime Date { get; set; }
 
-        public GameHistory(Player playerX, Player playerO, Player winner)
+        public GameHistory(BasePlayer playerX, BasePlayer playerO, BasePlayer winner)
         {
             Id = Guid.NewGuid();
             PlayerX = playerX;

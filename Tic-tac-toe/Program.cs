@@ -12,12 +12,13 @@ namespace Tic_tac_toe
 
         static void Main(string[] args)
         {
+            PremiumPlayer player = new PremiumPlayer("123","123","123");
+            Console.WriteLine(player.Name);
+            Console.WriteLine(player.Username);
+            Console.WriteLine(player.Wins);
+            Console.WriteLine(player.rating);
 
-            /*Player player = new Player("user", "user", "user", 'X');
-            GameHistory history = new GameHistory(player, player, player);
-            player.GameHistories.Add(history);
-            Console.WriteLine(player.GameHistories[0].PlayerX.Username);*/
-            while (true)
+            /*while (true)
             {
                 Console.Clear();
                 Console.WriteLine("Welcome To The Main Menu Of The Greate Ti-Tac-Toe Game");
@@ -45,9 +46,9 @@ namespace Tic_tac_toe
                     Console.Clear();
                     Console.Write("Print username of player: ");
                     string username = Console.ReadLine();
-                    if (Player.exists(username))
+                    if (BasePlayer.exists(username))
                     {
-                        Player.find(username).PrintGameHistory();
+                        BasePlayer.find(username).PrintGameHistory();
                         var a = Console.ReadLine();
                     }
                 }
@@ -56,7 +57,7 @@ namespace Tic_tac_toe
                     break;
                 }
 
-            }
+            }*/
 
 
         }
@@ -92,8 +93,8 @@ namespace Tic_tac_toe
         public void Start()
         {
             // Prompt the players to log in
-            Player playerX = PromptForLogin(PLAYER_X);
-            Player playerO = PromptForLogin(PLAYER_O);
+            BasePlayer playerX = PromptForLogin(PLAYER_X);
+            BasePlayer playerO = PromptForLogin(PLAYER_O);
 
             // Initialize the board
             for (int i = 0; i < BOARD_SIZE; i++)
@@ -124,6 +125,15 @@ namespace Tic_tac_toe
 
                     // Create a new GameHistory object and add it to the players' histories
                     GameHistory history = new GameHistory(playerX, playerO, currentPlayer == PLAYER_X ? playerX : playerO);
+                    if (currentPlayer == PLAYER_X) {
+                        playerX.win();
+                        playerO.lose();
+                    }
+                    else
+                    {
+                        playerO.win();
+                        playerX.lose();
+                    }
                     playerX.GameHistories.Add(history);
                     playerO.GameHistories.Add(history);
 
@@ -147,7 +157,7 @@ namespace Tic_tac_toe
             
         }
 
-        public static Player Registration()
+        public static BasePlayer Registration()
         {
             while (true)
             {
@@ -170,10 +180,10 @@ namespace Tic_tac_toe
 
                 
                 // add check for unique username
-                if (password == password2 && !Player.exists(username)) 
+                if (password == password2 && !BasePlayer.exists(username)) 
                 {
-                    Player player = new Player(name, username, password, mark);
-                    Player.PlayersBase.Add(player);
+                    BasePlayer player = new BasePlayer(name, username, password);
+                    BasePlayer.PlayersBase.Add(player);
                     return player;
 
                     break;
@@ -183,7 +193,7 @@ namespace Tic_tac_toe
             }
         }
 
-        private static Player PromptForLogin(char marker)
+        private static BasePlayer PromptForLogin(char marker)
         {
             while (true)
             {
@@ -198,12 +208,12 @@ namespace Tic_tac_toe
                 {
                     string hashedPassword = Encoding.UTF8.GetString(sha256.ComputeHash(Encoding.UTF8.GetBytes(password)));
 
-                    if (Player.exists(username))
+                    if (BasePlayer.exists(username))
                     {
-                        if (Player.find(username).Password == hashedPassword)
+                        if (BasePlayer.find(username).Password == hashedPassword)
                         {
                             // Return the player object
-                            return Player.find(username);
+                            return BasePlayer.find(username);
                         }
 
                     }
