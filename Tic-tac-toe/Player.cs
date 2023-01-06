@@ -88,17 +88,19 @@ namespace Tic_tac_toe
             }
         }
 
-        public static void load() 
+        public static void load()
         {
             var binFormatter = new BinaryFormatter();
-
-            using (var file = new FileStream("PlayerBase.bin", FileMode.OpenOrCreate))
-            {
-                var newPlayerBase = binFormatter.Deserialize(file) as List<BasePlayer>;
-
-                if (newPlayerBase != null)
+            if (File.Exists("PlayerBase.bin"))
+            { 
+                using (var file = new FileStream("PlayerBase.bin", FileMode.OpenOrCreate))
                 {
-                    PlayersBase = newPlayerBase;
+                    var newPlayerBase = binFormatter.Deserialize(file) as List<BasePlayer>;
+
+                    if (newPlayerBase != null)
+                    {
+                        PlayersBase = newPlayerBase;
+                    }
                 }
             }
         }
