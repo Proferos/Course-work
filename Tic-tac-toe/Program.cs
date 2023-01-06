@@ -6,6 +6,10 @@ using System.IO;
 using System.Runtime.ExceptionServices;
 using System.Runtime.CompilerServices;
 
+
+
+// додати зміну рейтингу в історію
+
 namespace Tic_tac_toe
 {
     class Program
@@ -131,7 +135,7 @@ namespace Tic_tac_toe
                     Console.WriteLine($"Player {currentPlayer} wins!");
 
                     // Create a new GameHistory object and add it to the players' histories
-                    GameHistory history = new GameHistory(playerX, playerO, currentPlayer == PLAYER_X ? playerX : playerO);
+                    GameHistory history = new GameHistory(playerX, playerO, currentPlayer == PLAYER_X ? playerX : playerO, 50);
                     if (currentPlayer == PLAYER_X) {
                         playerX.win();
                         playerO.lose();
@@ -151,7 +155,7 @@ namespace Tic_tac_toe
                     Console.WriteLine("The game is a draw.");
 
                     // Create a new GameHistory object and add it to the players' histories
-                    GameHistory history = new GameHistory(playerX, playerO, null);
+                    GameHistory history = new GameHistory(playerX, playerO, null, 0);
                     playerX.GameHistories.Add(history);
                     playerO.GameHistories.Add(history);
 
@@ -279,22 +283,17 @@ namespace Tic_tac_toe
         {
             while (true)
             {
-                Console.Write($"Player {currentPlayer}, enter your move (row column): ");
+                Console.Write($"Player {currentPlayer}, enter your move (1-9): ");
                 string input = Console.ReadLine();
 
-                // Try to parse the input as a row and column
-                string[] tokens = input.Split(' ');
-                if (tokens.Length == 2)
+                int.TryParse(input, out int turn);
+
+                if (turn > 0 && turn < 10)
                 {
-                    if (int.TryParse(tokens[0], out int row) && int.TryParse(tokens[1], out int column))
-                    {
-                        // Check if the move is valid (within the bounds of the board and not already taken)
-                        if (row >= 0 && row < BOARD_SIZE && column >= 0 && column < BOARD_SIZE && board[row, column] == ' ')
-                        {
-                            return row * BOARD_SIZE + column;
-                        }
-                    }
+                    return turn;
+                    break;
                 }
+                
 
                 Console.WriteLine("Invalid move. Try again.");
             }
@@ -302,9 +301,18 @@ namespace Tic_tac_toe
 
         private void UpdateBoard(int move)
         {
-            int row = move / BOARD_SIZE;
-            int column = move % BOARD_SIZE;
-            board[row, column] = currentPlayer;
+            switch (move)
+            {
+                case 1: board[0, 0] = currentPlayer; break;
+                case 2: board[0, 1] = currentPlayer; break;
+                case 3: board[0, 2] = currentPlayer; break;
+                case 4: board[1, 0] = currentPlayer; break;
+                case 5: board[1, 1] = currentPlayer; break;
+                case 6: board[1, 2] = currentPlayer; break;
+                case 7: board[2, 0] = currentPlayer; break;
+                case 8: board[2, 1] = currentPlayer; break;
+                case 9: board[2, 2] = currentPlayer; break;
+            }
         }
 
         private bool CheckForWin()

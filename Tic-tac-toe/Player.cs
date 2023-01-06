@@ -14,11 +14,11 @@ namespace Tic_tac_toe
     [Serializable]
     class BasePlayer
     {
-        public string Name { get; set; }
-        public string Username { get; set; }
+        protected string Name { get; set; }
+        protected string Username { get; set; }
         public string Password { get; set; }
-        public int Wins { get; set; }
-        public int Losses { get; set; }
+        protected int Wins { get; set; }
+        protected int Losses { get; set; }
         public string PasswordHash { get; set; }
         protected int rating { get; set; }
         public List<GameHistory> GameHistories { get; set; }
@@ -57,13 +57,13 @@ namespace Tic_tac_toe
         {
             Console.WriteLine($"Game history for {Name}:");
             Console.WriteLine($"Current Rating: {rating}");
-            Console.WriteLine("ID                                 Date            Opponent         Result");
-            Console.WriteLine("==========================================================================");
+            Console.WriteLine("ID                                    Date         Opponent       Result    Rating");
+            Console.WriteLine("========================================================================================");
             foreach (GameHistory history in GameHistories)
             {
                 string opponentName = history.PlayerO == this ? history.PlayerX.Name : history.PlayerO.Name;
                 string result = history.Winner == null ? "Draw" : (history.Winner == this ? "Win" : "Loss");
-                Console.WriteLine($"{history.Id,-24}  {history.Date:dd-MM-yyyy}  {opponentName,-15}  {result}");
+                Console.WriteLine($"{history.Id,-24}  {history.Date:dd-MM-yyyy}  {opponentName,-15}  {result,-12} {history.Rating}");
             }
         }
 
